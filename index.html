@@ -29,7 +29,7 @@
       font-size: 24px;
     }
 
-    .converter input, .converter button {
+    .converter select, .converter button {
       padding: 10px;
       margin: 10px 0;
       width: 100%;
@@ -59,8 +59,33 @@
 <body>
   <div class="converter">
     <h1>Nepali to English Date Converter</h1>
-    <label for="nepaliDate">Enter Nepali Date (BS):</label>
-    <input type="text" id="nepaliDate" placeholder="YYYY-MM-DD">
+    <label for="nepaliYear">Select Nepali Date (BS):</label>
+    <select id="nepaliYear">
+      <option value="2079">2079</option>
+      <option value="2080">2080</option>
+      <option value="2081">2081</option>
+    </select>
+    <select id="nepaliMonth">
+      <option value="1">Baisakh</option>
+      <option value="2">Jestha</option>
+      <option value="3">Ashadh</option>
+      <option value="4">Shrawan</option>
+      <option value="5">Bhadra</option>
+      <option value="6">Ashwin</option>
+      <option value="7">Kartik</option>
+      <option value="8">Mangsir</option>
+      <option value="9">Poush</option>
+      <option value="10">Magh</option>
+      <option value="11">Falgun</option>
+      <option value="12">Chaitra</option>
+    </select>
+    <select id="nepaliDay">
+      <script>
+        for (let i = 1; i <= 32; i++) {
+          document.write(`<option value="${i}">${i}</option>`);
+        }
+      </script>
+    </select>
     <button onclick="convertDate()">Convert to English (AD)</button>
     <div class="result" id="result"></div>
   </div>
@@ -68,15 +93,11 @@
   <script>
     // Precise conversion using Nepali Date library
     function convertDate() {
-      const bsDate = document.getElementById('nepaliDate').value;
-
-      if (!bsDate.match(/^\d{4}-\d{2}-\d{2}$/)) {
-        document.getElementById('result').innerText = 'Please enter a valid Nepali date in YYYY-MM-DD format.';
-        return;
-      }
+      const year = parseInt(document.getElementById('nepaliYear').value);
+      const month = parseInt(document.getElementById('nepaliMonth').value);
+      const day = parseInt(document.getElementById('nepaliDay').value);
 
       try {
-        const [year, month, day] = bsDate.split('-').map(Number);
         const nepaliDate = new NepaliDate(year, month - 1, day); // NepaliDate months are zero-based
         const adDate = nepaliDate.toJsDate();
 
